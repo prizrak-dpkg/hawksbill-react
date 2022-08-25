@@ -85,7 +85,6 @@ body,
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: map-get($map: $color-palette, $key: second);
 }
 
 code {
@@ -97,7 +96,7 @@ code {
   @include coverWidth();
 
   &__label {
-    @include flex(column, nowrap, center, start);
+    @include flex(column, nowrap, center, flex-start);
 
     &-text {
       padding-left: 10px;
@@ -245,7 +244,7 @@ code {
   }
 
   &__form-container {
-    @include flex(column, nowrap, space-between, start);
+    @include flex(column, nowrap, space-between, flex-start);
     @include coverWidth();
     min-width: 280px;
     max-width: 428px;
@@ -258,7 +257,7 @@ code {
   }
 
   &__options {
-    @include flex(column, nowrap, space-between, start);
+    @include flex(column, nowrap, space-between, flex-start);
     width: fit-content;
     height: 46px;
   }
@@ -368,7 +367,7 @@ code {
     color: map-get($map: $color-palette, $key: first);
 
     &-detail {
-      @include flex(column, nowrap, space-between, end);
+      @include flex(column, nowrap, space-between, flex-end);
       margin-left: 45px;
     }
 
@@ -470,15 +469,15 @@ code {
   }
 
   &__navbar {
-    @include flex(column, nowrap, space-between, start);
+    @include flex(column, nowrap, space-between, flex-start);
     width: 100%;
     height: calc(100vh - 172px);
     padding: 0px 14px 14px 14px;
+    overflow: hidden;
     overflow-y: scroll;
 
     &-list {
       @include coverWidth();
-      overflow: hidden;
     }
 
     @media (max-width: 799px) {
@@ -537,6 +536,7 @@ code {
       padding-left: 26px;
       border-left: solid 1px map-get($map: $color-palette, $key: third);
       overflow: hidden;
+      transition: height 0.5s;
     }
   }
 

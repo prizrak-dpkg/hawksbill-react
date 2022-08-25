@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { AiFillHome } from "react-icons/ai";
-import { HiDocumentDuplicate } from "react-icons/hi";
-import { RiShutDownLine } from "react-icons/ri";
+import { AiFillHome, AiFillPieChart } from "react-icons/ai";
+import { IoDocuments, IoSettingsSharp } from "react-icons/io5";
+import { SiHandshake } from "react-icons/si";
+import { RiShutDownLine, RiTeamFill } from "react-icons/ri";
 import {
   AdminPaths,
   PropsInterface,
@@ -24,30 +25,76 @@ export const SideMenu: React.FC<PropsInterface> = (): JSX.Element => {
       <NavigationBar>
         <ul className="side-menu__navbar-list">
           <NavBarCategory
+            openSideMenu={openSideMenu}
+            setOpenSideMenu={setOpenSideMenu}
             detail="Inicio"
             icon={<AiFillHome className="reusable__icon" />}
             destination={AdminPaths.Dashboard}
           />
           <NavBarCategory
+            openSideMenu={openSideMenu}
+            setOpenSideMenu={setOpenSideMenu}
             detail="Documentos"
-            icon={<HiDocumentDuplicate className="reusable__icon" />}
+            icon={<IoDocuments className="reusable__icon" />}
           >
             <NavBarItem
-              detail="Actas de entrega"
-              destination={AdminPaths.DeliveryCertificates}
-            ></NavBarItem>
-            <NavBarItem
+              openSideMenu={openSideMenu}
+              setOpenSideMenu={setOpenSideMenu}
               detail="Cuadros de licenciamiento"
               destination={AdminPaths.LicensingTables}
             ></NavBarItem>
             <NavBarItem
-              detail="Hojas de vida"
-              destination={AdminPaths.EquipmentSpecifications}
+              openSideMenu={openSideMenu}
+              setOpenSideMenu={setOpenSideMenu}
+              detail="Credenciales"
+              destination={AdminPaths.Credentials}
             ></NavBarItem>
           </NavBarCategory>
+          <NavBarCategory
+            openSideMenu={openSideMenu}
+            setOpenSideMenu={setOpenSideMenu}
+            detail="Solicitudes"
+            icon={<SiHandshake className="reusable__icon" />}
+          >
+            <NavBarItem
+              openSideMenu={openSideMenu}
+              setOpenSideMenu={setOpenSideMenu}
+              detail="Abiertas"
+              destination={AdminPaths.OpenRequest}
+            ></NavBarItem>
+            <NavBarItem
+              openSideMenu={openSideMenu}
+              setOpenSideMenu={setOpenSideMenu}
+              detail="Cerradas"
+              destination={AdminPaths.ClosedRequest}
+            ></NavBarItem>
+          </NavBarCategory>
+          <NavBarCategory
+            openSideMenu={openSideMenu}
+            setOpenSideMenu={setOpenSideMenu}
+            detail="Equipo"
+            icon={<RiTeamFill className="reusable__icon" />}
+            destination={AdminPaths.Team}
+          />
+          <NavBarCategory
+            openSideMenu={openSideMenu}
+            setOpenSideMenu={setOpenSideMenu}
+            detail="Informes"
+            icon={<AiFillPieChart className="reusable__icon" />}
+            destination={AdminPaths.Reports}
+          />
         </ul>
         <ul className="side-menu__navbar-list">
           <NavBarCategory
+            openSideMenu={openSideMenu}
+            setOpenSideMenu={setOpenSideMenu}
+            detail="Configuración"
+            icon={<IoSettingsSharp className="reusable__icon" />}
+            destination={AdminPaths.Settings}
+          />
+          <NavBarCategory
+            openSideMenu={openSideMenu}
+            setOpenSideMenu={setOpenSideMenu}
             detail="Cerrar sesión"
             icon={<RiShutDownLine className="reusable__icon" />}
             destination={SharedPaths.Login}

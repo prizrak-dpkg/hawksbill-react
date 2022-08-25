@@ -6,6 +6,14 @@ export const preventDrag = (
   event.preventDefault();
 };
 
+export const collapseNavSubLists = (): void => {
+  Array.from(
+    document.querySelectorAll<HTMLElement>(".side-menu__item-sublist")
+  ).forEach((sublist): void => {
+    sublist.style.height = "0px";
+  });
+};
+
 export const filteredDigits = (text: string): string[] => {
   const digitRegex: RegExp = /^[\d]{1}$/;
   const nonZeroRegex: RegExp = /^[1-9]{1}$/;

@@ -1,6 +1,6 @@
 import { PropsInterface } from "../../helpers/interfaces";
 import { Header } from "../../pages/shared/Header/Header";
-import { SideMenu } from "../../pages/admin/SideMenu/SideMenu";
+import { SideMenu } from "../../pages/admin";
 
 const AdminLayout: React.FC<PropsInterface> = ({
   children,

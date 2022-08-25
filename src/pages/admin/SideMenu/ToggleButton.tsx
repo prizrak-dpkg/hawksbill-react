@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaBars, FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import { collapseNavSubLists } from "../../../helpers/helpers";
 import { ToggleButtonInterface } from "../../../helpers/interfaces";
 
 export const ToggleButton: React.FC<ToggleButtonInterface> = ({
@@ -27,7 +28,12 @@ export const ToggleButton: React.FC<ToggleButtonInterface> = ({
           ? "side-menu__toggle-button side-menu__toggle-button--open-menu"
           : "side-menu__toggle-button"
       }
-      onClick={(): void => setOpenSideMenu(!openSideMenu)}
+      onClick={(): void => {
+        if (openSideMenu) {
+          collapseNavSubLists();
+        }
+        setOpenSideMenu(!openSideMenu);
+      }}
     >
       {mobileScreen ? (
         openSideMenu ? (

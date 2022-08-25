@@ -1,7 +1,5 @@
 import { PropsInterface } from "../../../../helpers/interfaces";
 
-export const EquipmentSpecifications: React.FC<
-  PropsInterface
-> = (): JSX.Element => {
+export const Credentials: React.FC<PropsInterface> = (): JSX.Element => {
   return <div></div>;
 };

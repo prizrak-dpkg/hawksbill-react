@@ -1,4 +1,4 @@
-import { InputInterface, PropsInterface } from "../../../helpers/interfaces";
+import { InputInterface } from "../../../helpers/interfaces";
 
 export const FormInput: React.FC<InputInterface> = ({
   label,

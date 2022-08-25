@@ -43,12 +43,12 @@ export interface LoginOptionInterface extends PropsInterface {
 
 // Side menu
 
-export interface ToggleButtonInterface {
+export interface ToggleButtonInterface extends PropsInterface {
   openSideMenu: boolean;
   setOpenSideMenu: (value: React.SetStateAction<boolean>) => void;
 }
 
-export interface NavBarItemInterface extends PropsInterface {
+export interface NavBarItemInterface extends ToggleButtonInterface {
   detail: string;
   destination?: AdminPaths | CustomerPaths | SharedPaths;
 }
@@ -77,9 +77,13 @@ export interface InputInterface extends PropsInterface {
 
 export enum AdminPaths {
   Dashboard = "/dashboard",
-  DeliveryCertificates = "/deliverycertificates",
-  EquipmentSpecifications = "/equipmentspecifications",
   LicensingTables = "/licensingtables",
+  Credentials = "/credentials",
+  OpenRequest = "/openrequest",
+  ClosedRequest = "/closedrequest",
+  Team = "/team",
+  Reports = "/reports",
+  Settings = "/settings",
 }
 
 export enum CustomerPaths {
@@ -89,6 +93,7 @@ export enum CustomerPaths {
 export enum SharedPaths {
   Login = "/login",
   NotFound = "*",
+  Settings = "Settings",
 }
 
 export interface RouteInterface {

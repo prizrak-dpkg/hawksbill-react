@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { BsFillChatLeftDotsFill } from "react-icons/bs";
-import { PropsInterface } from "../../../helpers/interfaces";
+import { Link } from "react-router-dom";
+import { AdminPaths, PropsInterface } from "../../../helpers/interfaces";
 import { HorizontalLogo } from "./HorizontalLogo";
 
 export const Header: React.FC<PropsInterface> = (): JSX.Element => {
@@ -30,7 +31,9 @@ export const Header: React.FC<PropsInterface> = (): JSX.Element => {
             </span>
             <span className="header__profile-position">Backend developer</span>
           </div>
-          <div ref={useProfileImage} className="header__profile-image" />
+          <Link to={AdminPaths.Settings}>
+            <div ref={useProfileImage} className="header__profile-image" />
+          </Link>
         </div>
       </div>
     </div>

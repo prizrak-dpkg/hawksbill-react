@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { preventDrag } from "../../../helpers/helpers";
+import { collapseNavSubLists, preventDrag } from "../../../helpers/helpers";
 import {
   NavBarCategoryInterface,
   NavBarItemInterface,
@@ -11,19 +11,46 @@ export const NavBarCategory: React.FC<NavBarCategoryInterface> = ({
   detail,
   icon,
   destination,
+  openSideMenu,
+  setOpenSideMenu,
 }): JSX.Element => {
-  const useSubList: React.RefObject<HTMLLIElement> =
+  const useItemList: React.RefObject<HTMLLIElement> =
     useRef<HTMLLIElement>(null);
+  const useSubList: React.RefObject<HTMLUListElement> =
+    useRef<HTMLUListElement>(null);
+  const toggleSubList = (): void => {
+    if (useSubList.current !== null && useItemList.current !== null) {
+      const currentHeight: number = parseInt(
+        window
+          .getComputedStyle(useItemList.current)
+          .getPropertyValue("height")
+          .split("px")[0]
+      );
+      const height: number = useSubList.current.childElementCount * 52;
+      if (!openSideMenu) {
+        setOpenSideMenu(!openSideMenu);
+      }
+      if (currentHeight > 0) {
+        useItemList.current.style.height = `${0}px`;
+      } else {
+        collapseNavSubLists();
+        useItemList.current.style.height = `${height}px`;
+      }
+    }
+  };
   return children ? (
     <>
-      <li className="side-menu__item side-menu__item-destination">
+      <li
+        className="side-menu__item side-menu__item-destination"
+        onClick={toggleSubList}
+      >
         <div className="side-menu__item-container">
           <div className="side-menu__item-icon">{icon}</div>
           <span className="side-menu__item-detail">{detail}</span>
         </div>
       </li>
-      <li ref={useSubList} className="side-menu__item-sublist">
-        <ul>{children}</ul>
+      <li ref={useItemList} className="side-menu__item-sublist">
+        <ul ref={useSubList}>{children}</ul>
       </li>
     </>
   ) : (
@@ -33,6 +60,10 @@ export const NavBarCategory: React.FC<NavBarCategoryInterface> = ({
           className="side-menu__item-destination"
           to={destination}
           onDragStart={preventDrag}
+          onClick={(): void => {
+            collapseNavSubLists();
+            setOpenSideMenu(false);
+          }}
         >
           <div className="side-menu__item-container">
             <div className="side-menu__item-icon">{icon}</div>
@@ -52,6 +83,7 @@ export const NavBarCategory: React.FC<NavBarCategoryInterface> = ({
 export const NavBarItem: React.FC<NavBarItemInterface> = ({
   detail,
   destination,
+  setOpenSideMenu,
 }): JSX.Element => {
   return (
     <li className="side-menu__item">
@@ -60,6 +92,10 @@ export const NavBarItem: React.FC<NavBarItemInterface> = ({
           className="side-menu__item-detail side-menu__item-destination"
           to={destination}
           onDragStart={preventDrag}
+          onClick={(): void => {
+            collapseNavSubLists();
+            setOpenSideMenu(false);
+          }}
         >
           {detail}
         </Link>
