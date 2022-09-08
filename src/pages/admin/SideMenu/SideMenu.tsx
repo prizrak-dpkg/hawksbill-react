@@ -3,17 +3,15 @@ import { AiFillHome, AiFillPieChart } from "react-icons/ai";
 import { IoDocuments, IoSettingsSharp } from "react-icons/io5";
 import { SiHandshake } from "react-icons/si";
 import { RiShutDownLine, RiTeamFill } from "react-icons/ri";
-import {
-  AdminPaths,
-  PropsInterface,
-  SharedPaths,
-} from "../../../helpers/interfaces";
-import { NavBarCategory, NavBarItem } from "./NavBarItems";
+import { AdminPaths, PropsInterface } from "../../../helpers/interfaces";
+import { LogoutButton, NavBarCategory, NavBarItem } from "./NavBarItems";
 import { NavigationBar } from "./NavigationBar";
 import { ToggleButton } from "./ToggleButton";
+import { useAuth } from "../../../hooks/useAuth";
 
 export const SideMenu: React.FC<PropsInterface> = (): JSX.Element => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
+  const { logout } = useAuth();
   return (
     <div
       className={openSideMenu ? "side-menu side-menu--open-menu" : "side-menu"}
@@ -92,12 +90,9 @@ export const SideMenu: React.FC<PropsInterface> = (): JSX.Element => {
             icon={<IoSettingsSharp className="reusable__icon" />}
             destination={AdminPaths.Settings}
           />
-          <NavBarCategory
-            openSideMenu={openSideMenu}
-            setOpenSideMenu={setOpenSideMenu}
-            detail="Cerrar sesión"
+          <LogoutButton
+            logout={logout}
             icon={<RiShutDownLine className="reusable__icon" />}
-            destination={SharedPaths.Login}
           />
         </ul>
       </NavigationBar>

@@ -13,6 +13,11 @@ import { AdminPaths, RouteInterface } from "../helpers/interfaces";
 
 const adminRoutes: RouteInterface[] = [
   {
+    path: AdminPaths.Root,
+    layout: AdminLayout,
+    component: Dashboard,
+  },
+  {
     path: AdminPaths.Dashboard,
     layout: AdminLayout,
     component: Dashboard,

@@ -6,6 +6,18 @@ export interface PropsInterface {
   children?: ReactNode;
 }
 
+// API
+
+export enum APIKeys {
+  TOKEN = "token",
+  USER = "user",
+}
+
+export enum APIPaths {
+  BASE_URL = "http://127.0.0.1:8000/api",
+  MEDIA_URL = "http://127.0.0.1:8000/media",
+}
+
 // HTTP request methods
 
 export enum HTTPRequestMethods {
@@ -15,10 +27,19 @@ export enum HTTPRequestMethods {
   DELETE = "DELETE",
 }
 
-export interface DSRedirectResponse {
+export interface APIResponseInterface {
   response: boolean;
-  redirect?: string;
+  data?: any;
+  detail?: string;
+  errors?: any;
   message?: string;
+  redirect?: string;
+  token?: string;
+  token_is_expired?: boolean;
+}
+
+export interface APIUserDataResponseInterface extends APIResponseInterface {
+  data?: UserDataInterface;
 }
 
 // Login
@@ -41,7 +62,21 @@ export interface LoginOptionInterface extends PropsInterface {
   onModeChange: (mode: LoginModes) => void;
 }
 
+export interface LoginContext {
+  login: (response: APIResponseInterface) => void;
+  logout: () => void;
+  refresh: () => void;
+  auth?: UserDataInterface | null;
+}
+
 // Side menu
+
+export interface UserDataInterface {
+  username: string;
+  user: string;
+  position: string;
+  profile_image: string;
+}
 
 export interface ToggleButtonInterface extends PropsInterface {
   openSideMenu: boolean;
@@ -57,10 +92,15 @@ export interface NavBarCategoryInterface extends NavBarItemInterface {
   icon: ReactNode;
 }
 
+export interface LogoutButtonInterface {
+  logout: () => void;
+  icon: ReactNode;
+}
+
 // Reusable components
 
 export interface ButtonInterface extends PropsInterface {
-  action?: (form: LoginFormInterface) => void;
+  action: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   executeAction: boolean;
 }
 
@@ -76,6 +116,7 @@ export interface InputInterface extends PropsInterface {
 // Navigation
 
 export enum AdminPaths {
+  Root = "/",
   Dashboard = "/dashboard",
   LicensingTables = "/licensingtables",
   Credentials = "/credentials",

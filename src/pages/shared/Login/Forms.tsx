@@ -2,9 +2,14 @@ import {
   checkPassword,
   formattedEmail,
   formattedInteger,
+  onlyDigits,
+  sendData,
 } from "../../../helpers/helpers";
 import { useLoginForm } from "../../../hooks/useLoginForm";
 import {
+  APIPaths,
+  APIResponseInterface,
+  HTTPRequestMethods,
   LoginModes,
   LoginOptionInterface,
   PropsInterface,
@@ -14,6 +19,7 @@ import { FormInput } from "../../reusableComponents/Inputs/Inputs";
 import { Options } from "./Options";
 import { useRef } from "react";
 import { useLoginTranslate } from "../../../hooks/useLoginTranslate";
+import { useAuth } from "../../../hooks/useAuth";
 
 export const SignUpForm: React.FC<LoginOptionInterface> = ({
   mode,
@@ -31,6 +37,10 @@ export const SignUpForm: React.FC<LoginOptionInterface> = ({
   form.document = document;
   form.email = email;
   const validateForm = validateDocument && validateEmail && validatePassord;
+  const action = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    console.log(form);
+  };
   return (
     <div className="login__form-container">
       <form className="login__form">
@@ -58,7 +68,9 @@ export const SignUpForm: React.FC<LoginOptionInterface> = ({
           type="password"
           onChange={handleChanges}
         />
-        <PrimaryButton executeAction={validateForm}>Registrate</PrimaryButton>
+        <PrimaryButton executeAction={validateForm} action={action}>
+          Registrate
+        </PrimaryButton>
       </form>
       <Options
         mode={mode}
@@ -74,6 +86,7 @@ export const SignInForm: React.FC<LoginOptionInterface> = ({
   formContainerRef,
   onModeChange,
 }): JSX.Element => {
+  const { login } = useAuth();
   const [form, handleChanges] = useLoginForm({
     document: "",
     password: "",
@@ -82,6 +95,25 @@ export const SignInForm: React.FC<LoginOptionInterface> = ({
   const validatePassord = form.password ? form.password.length > 0 : false;
   form.document = document;
   const validateForm = validateDocument && validatePassord;
+  const action = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    const data: FormData = new FormData();
+    data.append(
+      "login",
+      JSON.stringify({
+        username: onlyDigits(form.document),
+        password: form.password,
+      })
+    );
+    const response: APIResponseInterface = await sendData(
+      `${APIPaths.BASE_URL}/login/`,
+      HTTPRequestMethods.POST,
+      data
+    );
+    login(response);
+  };
   return (
     <div className="login__form-container">
       <form className="login__form">
@@ -101,7 +133,7 @@ export const SignInForm: React.FC<LoginOptionInterface> = ({
           type="password"
           onChange={handleChanges}
         />
-        <PrimaryButton executeAction={validateForm}>
+        <PrimaryButton executeAction={validateForm} action={action}>
           Iniciar sesión
         </PrimaryButton>
       </form>
@@ -124,6 +156,10 @@ export const RecoveryForm: React.FC<LoginOptionInterface> = ({
   });
   const [validateDocument, document] = formattedInteger(form.document, 4, 10);
   form.document = document;
+  const action = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    console.log(form);
+  };
   return (
     <div className="login__form-container">
       <form className="login__form">
@@ -135,7 +171,7 @@ export const RecoveryForm: React.FC<LoginOptionInterface> = ({
           type="text"
           onChange={handleChanges}
         />
-        <PrimaryButton executeAction={validateDocument}>
+        <PrimaryButton executeAction={validateDocument} action={action}>
           Recupera el acceso
         </PrimaryButton>
       </form>

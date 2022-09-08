@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { collapseNavSubLists, preventDrag } from "../../../helpers/helpers";
 import {
+  LogoutButtonInterface,
   NavBarCategoryInterface,
   NavBarItemInterface,
 } from "../../../helpers/interfaces";
@@ -76,6 +77,25 @@ export const NavBarCategory: React.FC<NavBarCategoryInterface> = ({
           <span className="side-menu__item-detail">{detail}</span>
         </div>
       )}
+    </li>
+  );
+};
+
+export const LogoutButton: React.FC<LogoutButtonInterface> = ({
+  logout,
+  icon,
+}): JSX.Element => {
+  return (
+    <li
+      className="side-menu__item side-menu__item-destination"
+      onClick={() => logout()}
+    >
+      {
+        <div className="side-menu__item-container">
+          <div className="side-menu__item-icon">{icon}</div>
+          <span className="side-menu__item-detail">Cerrar sesión</span>
+        </div>
+      }
     </li>
   );
 };

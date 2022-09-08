@@ -190,6 +190,8 @@ code {
   @include fullScreen();
   padding: 10px;
   overflow: auto;
+  background-color: map-get($map: $color-palette, $key: first);
+  background-image: linear-gradient(315deg, map-get($map: $color-palette, $key: second) 0%, map-get($map: $color-palette, $key: first) 74%);
 
   &__container {
     @include flex(column, nowrap, space-between, center);

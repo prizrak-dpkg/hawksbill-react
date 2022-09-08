@@ -1,4 +1,27 @@
-import { DSRedirectResponse, HTTPRequestMethods } from "./interfaces";
+import {
+  APIKeys,
+  APIPaths,
+  APIResponseInterface,
+  APIUserDataResponseInterface,
+  HTTPRequestMethods,
+} from "./interfaces";
+
+export const setToken = (token: string): void => {
+  localStorage.setItem(APIKeys.TOKEN, token);
+};
+
+export const getToken = (): string | null =>
+  localStorage.getItem(APIKeys.TOKEN);
+
+export const removeToken = (): void => localStorage.removeItem(APIKeys.TOKEN);
+
+export const setUser = (user: string): void => {
+  localStorage.setItem(APIKeys.USER, user);
+};
+
+export const getUser = (): string | null => localStorage.getItem(APIKeys.USER);
+
+export const removeUser = (): void => localStorage.removeItem(APIKeys.USER);
 
 export const preventDrag = (
   event: React.DragEvent<HTMLAnchorElement | HTMLImageElement>
@@ -52,6 +75,10 @@ export const formattedInteger = (
   return [isItValid, formattedText];
 };
 
+export const onlyDigits = (text: string): string => {
+  return filteredDigits(text).join("");
+};
+
 export const formattedEmail = (text: string): [boolean, string] => {
   const emailRegex: RegExp =
     /^[a-z\d]{1}[\w.-]{3,}@[\w-]{2,}([.]{1}[\w-]{2,})+$/i;
@@ -73,17 +100,52 @@ export const checkPassword = (text: string): boolean => {
 
 export const sendData = async (
   destinationURL: string,
-  csrfToken: string,
-  data: FormData,
-  method: HTTPRequestMethods
-): Promise<DSRedirectResponse> => {
+  method: HTTPRequestMethods,
+  data?: FormData,
+  headers?: HeadersInit
+): Promise<APIResponseInterface> => {
   const response: Response = await fetch(destinationURL, {
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": csrfToken,
-    },
+    headers: headers,
     method: method,
     body: data,
   });
-  return (await response.json()) as Promise<DSRedirectResponse>;
+  return (await response.json()) as Promise<APIResponseInterface>;
+};
+
+export const getUserData = async (
+  token: string
+): Promise<APIUserDataResponseInterface> => {
+  const response: Response = await fetch(`${APIPaths.BASE_URL}/userdata/`, {
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  });
+  return (await response.json()) as Promise<APIUserDataResponseInterface>;
+};
+
+export const logoutAPI = async (
+  token: string
+): Promise<APIResponseInterface> => {
+  const data: FormData = new FormData();
+  data.append("token", token);
+  const response = await sendData(
+    `${APIPaths.BASE_URL}/logout/`,
+    HTTPRequestMethods.POST,
+    data
+  );
+  return response;
+};
+
+export const refreshToken = async (): Promise<APIResponseInterface> => {
+  const user = getUser();
+  const data: FormData = new FormData();
+  if (user !== null) {
+    data.append("username", user);
+  }
+  const response = await sendData(
+    `${APIPaths.BASE_URL}/gettoken/`,
+    HTTPRequestMethods.POST,
+    data
+  );
+  return response;
 };
