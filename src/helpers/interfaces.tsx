@@ -35,7 +35,7 @@ export interface APIResponseInterface {
   message?: string;
   redirect?: string;
   token?: string;
-  token_is_expired?: boolean;
+  tokenIsExpired?: boolean;
 }
 
 export interface APIUserDataResponseInterface extends APIResponseInterface {
@@ -105,12 +105,31 @@ export interface ButtonInterface extends PropsInterface {
 }
 
 export interface InputInterface extends PropsInterface {
-  label: string;
   name: string;
   value: string;
   placeholder: string;
   type: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  label?: string;
+}
+
+export interface CornerRadiusInputInterface extends InputInterface {
+  corners: [boolean, boolean, boolean, boolean];
+  paddingIcon?: boolean;
+}
+
+export interface SearchInterface {
+  search: string;
+}
+
+export interface SearchBarInterface {
+  placeholder: string;
+}
+
+export interface CardInterface {
+  cardImageUrl: string;
+  info?: { detail: string; content: string }[];
+  title?: string;
 }
 
 // Navigation

@@ -15,7 +15,7 @@ import {
   PropsInterface,
 } from "../../../helpers/interfaces";
 import { PrimaryButton } from "../../reusableComponents";
-import { FormInput } from "../../reusableComponents/Inputs/Inputs";
+import { LoginInput } from "../../reusableComponents";
 import { Options } from "./Options";
 import { useRef } from "react";
 import { useLoginTranslate } from "../../../hooks/useLoginTranslate";
@@ -44,7 +44,7 @@ export const SignUpForm: React.FC<LoginOptionInterface> = ({
   return (
     <div className="login__form-container">
       <form className="login__form">
-        <FormInput
+        <LoginInput
           label="Documento"
           name="document"
           value={form.document}
@@ -52,7 +52,7 @@ export const SignUpForm: React.FC<LoginOptionInterface> = ({
           type="text"
           onChange={handleChanges}
         />
-        <FormInput
+        <LoginInput
           label="Correo electrónico"
           name="email"
           value={form.email === undefined ? "" : form.email}
@@ -60,7 +60,7 @@ export const SignUpForm: React.FC<LoginOptionInterface> = ({
           type="text"
           onChange={handleChanges}
         />
-        <FormInput
+        <LoginInput
           label="Contraseña"
           name="password"
           value={form.password === undefined ? "" : form.password}
@@ -117,7 +117,7 @@ export const SignInForm: React.FC<LoginOptionInterface> = ({
   return (
     <div className="login__form-container">
       <form className="login__form">
-        <FormInput
+        <LoginInput
           label="Documento"
           name="document"
           value={form.document}
@@ -125,7 +125,7 @@ export const SignInForm: React.FC<LoginOptionInterface> = ({
           type="text"
           onChange={handleChanges}
         />
-        <FormInput
+        <LoginInput
           label="Contraseña"
           name="password"
           value={form.password === undefined ? "" : form.password}
@@ -163,7 +163,7 @@ export const RecoveryForm: React.FC<LoginOptionInterface> = ({
   return (
     <div className="login__form-container">
       <form className="login__form">
-        <FormInput
+        <LoginInput
           label="Documento"
           name="document"
           value={form.document}

@@ -1,7 +1,7 @@
 $color-palette: (
   "first": #333333,
   "second": #797979,
-  "third": #c1c1c1,
+  "third": #C1C1C1,
   "fourth": #FAFAFA,
   "fifth": #FFFFFF,
 );
@@ -85,6 +85,7 @@ body,
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
 
 code {
@@ -95,8 +96,17 @@ code {
 .reusable {
   @include coverWidth();
 
+  &--grid {
+    @include grid(40px, row, auto, 200px, 200px, center, center);
+    justify-content: center;
+  }
+
   &__label {
     @include flex(column, nowrap, center, flex-start);
+
+    &--center {
+      @include flex(column, nowrap, center, center);
+    }
 
     &-text {
       padding-left: 10px;
@@ -131,6 +141,7 @@ code {
     border-bottom: 1px solid map-get($map: $color-palette, $key: second);
     padding: 10px;
     margin-bottom: 20px;
+    background: map-get($map: $color-palette, $key: fifth);
 
     &:focus-visible {
       outline: none;
@@ -143,6 +154,153 @@ code {
       font-size: 12px;
       line-height: 16px;
       color: map-get($map: $color-palette, $key: second);
+    }
+
+    &--shadow {
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    &--padding-icon {
+      padding-left: 36px;
+    }
+
+    &--top-left-radius {
+      border-top-left-radius: 10px;
+    }
+
+    &--top-right-radius {
+      border-top-right-radius: 10px;
+    }
+
+    &--bottom-right-radius {
+      border-bottom-right-radius: 10px;
+    }
+
+    &--bottom-left-radius {
+      border-bottom-left-radius: 10px;
+    }
+
+    &--icon-container {
+      @include coverWidth();
+    }
+
+    &-icon {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border: none;
+      background: none;
+      left: calc(15% + 10px);
+      top: 50%;
+      transform: translateY(calc(-50% - 10px));
+      color: map-get($map: $color-palette, $key: first);
+      transition: all 0.5s;
+
+      &:hover,
+      &:active {
+        cursor: pointer;
+        color: map-get($map: $color-palette, $key: second);
+      }
+
+      @media (max-width: 599px) {
+        left: 10px;
+      }
+    }
+  }
+
+  &--search-container {
+    @include flex(row, nowrap, center, flex-start);
+    position: relative;
+    padding: 0px 15%;
+    transition: all 0.5s;
+
+    @media (max-width: 599px) {
+      padding: 0px;
+    }
+  }
+
+  &__card {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    background: map-get($map: $color-palette, $key: third);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    color: map-get($map: $color-palette, $key: first);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+
+    &-image {
+      position: absolute;
+      left: calc(50% - 50px);
+      top: 50px;
+      width: 100px;
+      height: 100px;
+      border: 2px solid map-get($map: $color-palette, $key: fifth);
+      filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.25));
+      border-radius: 15px;
+      z-index: 10;
+    }
+
+    &-detail {
+      @include flex(column, nowrap, center, center);
+      @include coverWidth();
+      position: absolute;
+      bottom: 30px;
+    }
+
+    &-info {
+      width: 80%;
+      margin: 0px;
+      padding: 0px;
+      text-align: start;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      &--center {
+        text-align: center;
+      }
+
+      &--bold {
+        font-weight: 500;
+      }
+
+      &--title {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 25px;
+      }
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0px;
+      width: 200px;
+      height: 100px;
+      background: map-get($map: $color-palette, $key: fourth);
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+
+    &:hover,
+    &:active {
+      cursor: pointer;
+      color: map-get($map: $color-palette, $key: fifth);
+      background: map-get($map: $color-palette, $key: first);
+
+      &>.reusable__card-image {
+        border: 2px solid map-get($map: $color-palette, $key: second);
+      }
+
+      &::after {
+        background: map-get($map: $color-palette, $key: third);
+      }
     }
   }
 
@@ -316,6 +474,7 @@ code {
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
   background: map-get($map: $color-palette, $key: fourth);
   z-index: 1000;
+  transition: height 0.5s;
 
   &__toggle-button-silhouette {
     height: 32px;
@@ -443,7 +602,7 @@ code {
     position: fixed;
     top: 120px;
     left: 64px;
-    transition: transform 0.5s;
+    transition: all 0.5s;
 
     &--open-menu {
       transform: translateX(240px);
@@ -545,9 +704,38 @@ code {
   &--open-menu {
     width: 320px;
 
+    &~.main {
+      padding: 100px 20px 20px 340px;
+    }
+
     @media (max-width: 799px) {
+      &~.main {
+        padding: 120px 20px 20px 20px;
+      }
+
       width: 100%;
       z-index: 1000;
     }
+  }
+}
+
+.main {
+  @include fullScreen();
+  padding: 100px 20px 20px 100px;
+  transition: padding 0.5s;
+
+  &__content {
+    overflow: hidden;
+    overflow-y: scroll;
+    @include cover();
+    padding: 20px;
+
+    @media (max-width: 799px) {
+      padding: 0px 20px 20px 20px;
+    }
+  }
+
+  @media (max-width: 799px) {
+    padding: 120px 20px 20px 20px;
   }
 }
