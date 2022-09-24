@@ -2,14 +2,11 @@ import {
   checkPassword,
   formattedEmail,
   formattedInteger,
-  onlyDigits,
-  sendData,
+  loginAPI,
 } from "../../../helpers/helpers";
 import { useLoginForm } from "../../../hooks/useLoginForm";
 import {
-  APIPaths,
   APIResponseInterface,
-  HTTPRequestMethods,
   LoginModes,
   LoginOptionInterface,
   PropsInterface,
@@ -43,7 +40,7 @@ export const SignUpForm: React.FC<LoginOptionInterface> = ({
   };
   return (
     <div className="login__form-container">
-      <form className="login__form">
+      <form className="reusable__form">
         <LoginInput
           label="Documento"
           name="document"
@@ -99,24 +96,15 @@ export const SignInForm: React.FC<LoginOptionInterface> = ({
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    const data: FormData = new FormData();
-    data.append(
-      "login",
-      JSON.stringify({
-        username: onlyDigits(form.document),
-        password: form.password,
-      })
-    );
-    const response: APIResponseInterface = await sendData(
-      `${APIPaths.BASE_URL}/login/`,
-      HTTPRequestMethods.POST,
-      data
+    const response: APIResponseInterface = await loginAPI(
+      form.document,
+      form.password ? form.password : ""
     );
     login(response);
   };
   return (
     <div className="login__form-container">
-      <form className="login__form">
+      <form className="reusable__form">
         <LoginInput
           label="Documento"
           name="document"
@@ -162,7 +150,7 @@ export const RecoveryForm: React.FC<LoginOptionInterface> = ({
   };
   return (
     <div className="login__form-container">
-      <form className="login__form">
+      <form className="reusable__form">
         <LoginInput
           label="Documento"
           name="document"

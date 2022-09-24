@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { LoginFormInterface } from "../helpers/interfaces";
+import { OpenRequestFormInterface } from "../helpers/interfaces";
 
-export const useLoginForm = (
-  initialValue: LoginFormInterface
+export const useOpenRequestForm = (
+  initialValue: OpenRequestFormInterface
 ): [
-  LoginFormInterface,
+  OpenRequestFormInterface,
   (
     event:
       | React.ChangeEvent<HTMLInputElement>

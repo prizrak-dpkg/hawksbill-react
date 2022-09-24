@@ -98,7 +98,98 @@ code {
 
   &--grid {
     @include grid(40px, row, auto, 200px, 200px, center, center);
+    margin-top: 20px;
     justify-content: center;
+  }
+
+  &__form {
+    @include coverWidth();
+  }
+
+  &__modal {
+    @include flex(column, nowrap, center, center);
+    @include fullScreen();
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: -10;
+    opacity: 0;
+    padding: 10px;
+    transition: opacity 0.5s;
+
+    &-container {
+      @include cover();
+      position: relative;
+      padding: 20px 40px;
+      min-width: 340px;
+      min-height: 400px;
+      max-width: 600px;
+      max-height: 800px;
+      background: map-get($map: $color-palette, $key: fourth);
+      border: 1px solid #AFAFAF;
+      box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(20px);
+      border-radius: 15px;
+    }
+
+    &-header {
+      @include flex(row, nowrap, space-around, center);
+      @include coverWidth();
+      height: 100px;
+
+      &--title {
+        margin-left: 30px;
+        text-align: center;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 22px;
+        color: map-get($map: $color-palette, $key: first);
+        user-select: none;
+        overflow: hidden;
+      }
+    }
+
+    &-body {
+      @include coverWidth();
+      height: calc(100% - 200px);
+      overflow-y: scroll;
+      padding: 10px 0px;
+
+      &--footer {
+        height: calc(100% - 100px);
+      }
+    }
+
+    &-request-info {
+      height: 100%;
+      display: grid;
+      gap: 20px;
+      grid-template-columns: auto;
+      place-items: flex-start center;
+    }
+
+    &-request-detail {
+      @include flex(column, nowrap, center, flex-start);
+      user-select: none;
+    }
+
+    &-footer {
+      @include coverWidth();
+      @include flex(column, nowrap, space-around, center);
+      background: map-get($map: $color-palette, $key: fourth);
+      height: 100px;
+      padding: 0px 10px;
+      position: absolute;
+      bottom: 21px;
+      left: 0px;
+    }
+
+    &--is-open {
+      z-index: 10000;
+      opacity: 1;
+    }
   }
 
   &__label {
@@ -156,12 +247,16 @@ code {
       color: map-get($map: $color-palette, $key: second);
     }
 
-    &--shadow {
+    & &--shadow {
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
 
     &--padding-icon {
       padding-left: 36px;
+    }
+
+    &--margin-top {
+      margin-top: 10px;
     }
 
     &--top-left-radius {
@@ -242,6 +337,12 @@ code {
       filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.25));
       border-radius: 15px;
       z-index: 10;
+
+      &--detail {
+        position: static;
+        width: 200px;
+        height: 200px;
+      }
     }
 
     &-detail {
@@ -249,6 +350,14 @@ code {
       @include coverWidth();
       position: absolute;
       bottom: 30px;
+    }
+
+    &-request-info {
+      padding: 0px 50px;
+      font-style: normal;
+      font-size: 18px;
+      line-height: 30px;
+      text-align: start;
     }
 
     &-info {
@@ -338,6 +447,25 @@ code {
     }
   }
 
+  &__trasparent-button {
+    width: fit-content;
+    height: 30px;
+    min-width: 30px;
+    border: none;
+    background: none;
+    color: map-get($map: $color-palette, $key: first);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+
+    &:hover,
+    &:active {
+      cursor: pointer;
+      color: map-get($map: $color-palette, $key: second);
+    }
+  }
+
   &__icon {
     @include cover();
   }
@@ -410,10 +538,6 @@ code {
     max-width: 428px;
     min-height: 335px;
     max-height: 400px;
-  }
-
-  &__form {
-    @include coverWidth();
   }
 
   &__options {

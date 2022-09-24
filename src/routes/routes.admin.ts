@@ -1,8 +1,8 @@
 import AdminLayout from "../layouts/admin/AdminLayout";
 import {
   Dashboard,
-  LicensingTables,
-  Credentials,
+  // LicensingTables,
+  // Credentials,
   OpenRequest,
   ClosedRequest,
   Reports,
@@ -22,16 +22,16 @@ const adminRoutes: RouteInterface[] = [
     layout: AdminLayout,
     component: Dashboard,
   },
-  {
-    path: AdminPaths.LicensingTables,
-    layout: AdminLayout,
-    component: LicensingTables,
-  },
-  {
-    path: AdminPaths.Credentials,
-    layout: AdminLayout,
-    component: Credentials,
-  },
+  // {
+  //   path: AdminPaths.LicensingTables,
+  //   layout: AdminLayout,
+  //   component: LicensingTables,
+  // },
+  // {
+  //   path: AdminPaths.Credentials,
+  //   layout: AdminLayout,
+  //   component: Credentials,
+  // },
   {
     path: AdminPaths.OpenRequest,
     layout: AdminLayout,

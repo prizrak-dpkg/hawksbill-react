@@ -1,11 +1,21 @@
 import { useRef, useEffect } from "react";
-import { CardInterface } from "../../../helpers/interfaces";
+import {
+  CardInterface,
+  OpenRequestCardInterface,
+} from "../../../helpers/interfaces";
+import { useModal } from "../../../hooks/useModal";
+import { RequestDetail } from "../../admin/Requests/RequestDetail/RequestDetail";
+import { OpenRequestModal, Modal } from "../../reusableComponents";
 
-export const Card: React.FC<CardInterface> = ({
+export const OpenRequestCard: React.FC<OpenRequestCardInterface> = ({
   title,
   cardImageUrl,
   info,
+  request,
+  closeRequest,
+  requestId,
 }): JSX.Element => {
+  const [modalIsOpen, openModal, closeModal] = useModal();
   const useCardImage: React.RefObject<HTMLDivElement> =
     useRef<HTMLDivElement>(null);
   useEffect((): void => {
@@ -16,19 +26,84 @@ export const Card: React.FC<CardInterface> = ({
     }
   }, [cardImageUrl]);
   return (
-    <div className="reusable__card">
-      <div ref={useCardImage} className="reusable__card-image" />
-      <div className="reusable__card-detail">
-        <span className="reusable__card-info reusable__card-info--center reusable__card-info--title">
-          {title}
-        </span>
-        {info?.map((data) => (
-          <span className="reusable__card-info">
-            <span className="reusable__card-info--bold">{data.detail}</span>
-            {data.content}
+    <>
+      <div className="reusable__card" onClick={openModal}>
+        <div ref={useCardImage} className="reusable__card-image" />
+        <div className="reusable__card-detail">
+          <span className="reusable__card-info reusable__card-info--center reusable__card-info--title">
+            {title}
           </span>
-        ))}
+          {info?.map((data, index) => (
+            <span className="reusable__card-info" key={index}>
+              <span className="reusable__card-info--bold">{data.detail}</span>
+              {data.content}
+            </span>
+          ))}
+        </div>
       </div>
-    </div>
+      <OpenRequestModal
+        requestId={requestId}
+        closeRequest={closeRequest}
+        modalIsOpen={modalIsOpen}
+        closeModal={closeModal}
+        title={title}
+        applicant={
+          request !== undefined
+            ? request.applicant
+              ? request.applicant.check
+              : false
+            : false
+        }
+        technician={
+          request !== undefined
+            ? request.technician
+              ? request.technician.check
+              : false
+            : false
+        }
+      >
+        {request !== undefined ? <RequestDetail {...request} /> : null}
+      </OpenRequestModal>
+    </>
+  );
+};
+
+export const Card: React.FC<CardInterface> = ({
+  title,
+  cardImageUrl,
+  info,
+}): JSX.Element => {
+  const [modalIsOpen, openModal, closeModal] = useModal();
+  const useCardImage: React.RefObject<HTMLDivElement> =
+    useRef<HTMLDivElement>(null);
+  useEffect((): void => {
+    if (useCardImage.current !== null) {
+      useCardImage.current.style.background = `url('${cardImageUrl}')`;
+      useCardImage.current.style.backgroundSize = "cover";
+      useCardImage.current.style.backgroundRepeat = "no-repeat";
+    }
+  }, [cardImageUrl]);
+  return (
+    <>
+      <div className="reusable__card" onClick={openModal}>
+        <div ref={useCardImage} className="reusable__card-image" />
+        <div className="reusable__card-detail">
+          <span className="reusable__card-info reusable__card-info--center reusable__card-info--title">
+            {title}
+          </span>
+          {info?.map((data, index) => (
+            <span className="reusable__card-info" key={index}>
+              <span className="reusable__card-info--bold">{data.detail}</span>
+              {data.content}
+            </span>
+          ))}
+        </div>
+      </div>
+      <Modal
+        modalIsOpen={modalIsOpen}
+        closeModal={closeModal}
+        title={title}
+      ></Modal>
+    </>
   );
 };

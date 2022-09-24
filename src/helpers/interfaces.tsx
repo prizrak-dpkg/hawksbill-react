@@ -9,13 +9,32 @@ export interface PropsInterface {
 // API
 
 export enum APIKeys {
-  TOKEN = "token",
-  USER = "user",
+  TOKEN = "PEaenWxYddN6Q/NT1PiOYfz4EsZu7jRXRlpAsNpBU+A=",
+  USER = "BPiZbadjt6lpsQKO4wB1aerzpjVIbdqyEdUSyFud+Ps=",
 }
 
 export enum APIPaths {
   BASE_URL = "http://127.0.0.1:8000/api",
+  WS_URL = "ws://127.0.0.1:8000/api",
   MEDIA_URL = "http://127.0.0.1:8000/media",
+}
+
+export interface APIRequestInterface {
+  id: number | string;
+  registration_date: string;
+  modification_date: string;
+  client: string;
+  client_image: string;
+  request_type: string;
+  description: string;
+  applicant: { detail: string; check: boolean };
+  technician: { detail: string; check: boolean };
+  is_closed: boolean;
+}
+
+export interface APISelectOptions {
+  value: string;
+  detail: string;
 }
 
 // HTTP request methods
@@ -35,11 +54,12 @@ export interface APIResponseInterface {
   message?: string;
   redirect?: string;
   token?: string;
-  tokenIsExpired?: boolean;
+  token_is_expired?: boolean;
 }
 
 export interface APIUserDataResponseInterface extends APIResponseInterface {
   data?: UserDataInterface;
+  username: string;
 }
 
 // Login
@@ -65,14 +85,12 @@ export interface LoginOptionInterface extends PropsInterface {
 export interface LoginContext {
   login: (response: APIResponseInterface) => void;
   logout: () => void;
-  refresh: () => void;
   auth?: UserDataInterface | null;
 }
 
 // Side menu
 
 export interface UserDataInterface {
-  username: string;
   user: string;
   position: string;
   profile_image: string;
@@ -97,11 +115,44 @@ export interface LogoutButtonInterface {
   icon: ReactNode;
 }
 
+// Client requests
+
+export interface RequestDetailInterface {
+  cardImageUrl: string;
+  registrationDate: string;
+  modificationDate: string;
+  description?: string;
+  requestType?: string;
+  applicant?: {
+    detail: string;
+    check: boolean;
+  };
+  technician?: {
+    detail: string;
+    check: boolean;
+  };
+  isClosed?: boolean;
+}
+
+export interface OpenRequestFormInterface {
+  client: string;
+  requestType: string;
+  description: string;
+  applicant: string;
+  technician: string;
+}
+
+export interface OpenRequestOptionsInterface {
+  client: APISelectOptions[];
+  requestTypes: APISelectOptions[];
+  technicians: APISelectOptions[];
+}
+
 // Reusable components
 
 export interface ButtonInterface extends PropsInterface {
   action: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  executeAction: boolean;
+  executeAction?: boolean;
 }
 
 export interface InputInterface extends PropsInterface {
@@ -109,13 +160,18 @@ export interface InputInterface extends PropsInterface {
   value: string;
   placeholder: string;
   type: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => void;
   label?: string;
+  paddingIcon?: boolean;
+  options?: { value: string; detail: string }[];
 }
 
 export interface CornerRadiusInputInterface extends InputInterface {
   corners: [boolean, boolean, boolean, boolean];
-  paddingIcon?: boolean;
 }
 
 export interface SearchInterface {
@@ -126,10 +182,42 @@ export interface SearchBarInterface {
   placeholder: string;
 }
 
-export interface CardInterface {
+export interface ModalInterface extends PropsInterface {
+  title?: string;
+  modalIsOpen?: boolean;
+  closeModal?: () => void;
+  openModal?: () => void;
+}
+
+export interface OpenRequestModalInterface extends ModalInterface {
+  closeRequest: boolean;
+  applicant: boolean;
+  technician: boolean;
+  requestId: number | string;
+}
+
+export interface CardInterface extends PropsInterface {
   cardImageUrl: string;
   info?: { detail: string; content: string }[];
   title?: string;
+}
+
+export interface OpenRequestCardInterface extends CardInterface {
+  request?: RequestDetailInterface;
+  closeRequest: boolean;
+  requestId: number | string;
+}
+
+export interface ItemCardInterface extends PropsInterface {
+  data: {
+    id: number | string;
+    request?: RequestDetailInterface;
+    card: CardInterface;
+  }[];
+}
+
+export interface OpenRequestItemCardInterface extends ItemCardInterface {
+  closeRequest: boolean;
 }
 
 // Navigation

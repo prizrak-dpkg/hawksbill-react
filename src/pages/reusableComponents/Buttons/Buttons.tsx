@@ -3,7 +3,7 @@ import { ButtonInterface } from "../../../helpers/interfaces";
 export const PrimaryButton: React.FC<ButtonInterface> = ({
   children,
   action,
-  executeAction,
+  executeAction = true,
 }): JSX.Element => {
   return (
     <div className="reusable__button">

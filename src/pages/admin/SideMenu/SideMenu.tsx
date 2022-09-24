@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AiFillHome, AiFillPieChart } from "react-icons/ai";
-import { IoDocuments, IoSettingsSharp } from "react-icons/io5";
+import { /*IoDocuments, */ IoSettingsSharp } from "react-icons/io5";
 import { SiHandshake } from "react-icons/si";
 import { RiShutDownLine, RiTeamFill } from "react-icons/ri";
 import { AdminPaths, PropsInterface } from "../../../helpers/interfaces";
@@ -29,7 +29,7 @@ export const SideMenu: React.FC<PropsInterface> = (): JSX.Element => {
             icon={<AiFillHome className="reusable__icon" />}
             destination={AdminPaths.Dashboard}
           />
-          <NavBarCategory
+          {/* <NavBarCategory
             openSideMenu={openSideMenu}
             setOpenSideMenu={setOpenSideMenu}
             detail="Documentos"
@@ -47,7 +47,7 @@ export const SideMenu: React.FC<PropsInterface> = (): JSX.Element => {
               detail="Credenciales"
               destination={AdminPaths.Credentials}
             ></NavBarItem>
-          </NavBarCategory>
+          </NavBarCategory> */}
           <NavBarCategory
             openSideMenu={openSideMenu}
             setOpenSideMenu={setOpenSideMenu}

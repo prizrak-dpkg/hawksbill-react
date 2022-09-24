@@ -3,7 +3,6 @@ import {
   getToken,
   getUserData,
   logoutAPI,
-  refreshToken,
   removeToken,
   removeUser,
   setToken,
@@ -21,7 +20,6 @@ export const AuthContext: React.Context<LoginContext> =
     auth: undefined,
     login: () => {},
     logout: () => {},
-    refresh: () => {},
   });
 
 export const AuthProvider: React.FC<PropsInterface> = ({
@@ -33,9 +31,9 @@ export const AuthProvider: React.FC<PropsInterface> = ({
     login: async (response: APIResponseInterface) => {
       if (response.response && response.token !== undefined) {
         setToken(response.token);
-        const userData = await getUserData(response.token);
+        const userData = await getUserData();
         if (userData.data !== undefined) {
-          setUser(userData.data.username);
+          setUser(userData.username);
           setAuth(userData.data);
         }
       } else {
@@ -43,8 +41,8 @@ export const AuthProvider: React.FC<PropsInterface> = ({
       }
     },
     logout: async () => {
-      const token = getToken();
-      if (token !== null && auth !== null && auth !== undefined) {
+      const token = await getToken();
+      if (auth !== null && auth !== undefined) {
         const response = await logoutAPI(token);
         if (response.response && response.redirect !== undefined) {
           removeToken();
@@ -53,25 +51,13 @@ export const AuthProvider: React.FC<PropsInterface> = ({
         }
       }
     },
-    refresh: async () => {
-      const newToken = await refreshToken();
-      if (newToken.response && newToken.token !== undefined) {
-        setToken(newToken.token);
-      }
-    },
   };
   useEffect(() => {
     (async () => {
-      const token = getToken();
-      if (token !== null) {
-        const userData = await getUserData(token);
-        if (userData.data !== undefined) {
-          setUser(userData.data.username);
-          setAuth(userData.data);
-        } else {
-          await contextValue.refresh();
-          window.location.reload();
-        }
+      const userData = await getUserData();
+      if (userData.data !== undefined) {
+        setUser(userData.username);
+        setAuth(userData.data);
       } else {
         setAuth(null);
       }
