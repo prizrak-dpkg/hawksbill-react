@@ -5,6 +5,7 @@ import {
 } from "../../../helpers/interfaces";
 import { useModal } from "../../../hooks/useModal";
 import { RequestDetail } from "../../admin/Requests/RequestDetail/RequestDetail";
+import { TeamDetail } from "../../admin";
 import { OpenRequestModal, Modal } from "../../reusableComponents";
 
 export const OpenRequestCard: React.FC<OpenRequestCardInterface> = ({
@@ -72,6 +73,7 @@ export const Card: React.FC<CardInterface> = ({
   title,
   cardImageUrl,
   info,
+  request,
 }): JSX.Element => {
   const [modalIsOpen, openModal, closeModal] = useModal();
   const useCardImage: React.RefObject<HTMLDivElement> =
@@ -99,11 +101,9 @@ export const Card: React.FC<CardInterface> = ({
           ))}
         </div>
       </div>
-      <Modal
-        modalIsOpen={modalIsOpen}
-        closeModal={closeModal}
-        title={title}
-      ></Modal>
+      <Modal modalIsOpen={modalIsOpen} closeModal={closeModal} title={title}>
+        {request !== undefined ? <TeamDetail {...request} /> : null}
+      </Modal>
     </>
   );
 };

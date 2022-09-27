@@ -32,6 +32,16 @@ export interface APIRequestInterface {
   is_closed: boolean;
 }
 
+export interface APITeamInterface {
+  id: number | string;
+  user_image: string;
+  names: string;
+  surnames: string;
+  position: string;
+  openRequestNumber: number;
+  closedRequestNumber: number;
+}
+
 export interface APISelectOptions {
   value: string;
   detail: string;
@@ -115,6 +125,17 @@ export interface LogoutButtonInterface {
   icon: ReactNode;
 }
 
+// Dashboard
+
+export interface PercentageInterface {
+  percentage: number;
+}
+
+export interface ChartsInterface {
+  category: string;
+  value: number;
+}
+
 // Client requests
 
 export interface RequestDetailInterface {
@@ -134,6 +155,11 @@ export interface RequestDetailInterface {
   isClosed?: boolean;
 }
 
+export interface TeamFormInterface {
+  startdate: string;
+  enddate: string;
+}
+
 export interface OpenRequestFormInterface {
   client: string;
   requestType: string;
@@ -146,6 +172,15 @@ export interface OpenRequestOptionsInterface {
   client: APISelectOptions[];
   requestTypes: APISelectOptions[];
   technicians: APISelectOptions[];
+}
+
+// Team
+
+export interface TeamDetailInterface {
+  cardImageUrl: string;
+  position: string;
+  openRequestNumber: number;
+  closedRequestNumber: number;
 }
 
 // Reusable components
@@ -198,11 +233,15 @@ export interface OpenRequestModalInterface extends ModalInterface {
 
 export interface CardInterface extends PropsInterface {
   cardImageUrl: string;
+  request?: TeamDetailInterface;
   info?: { detail: string; content: string }[];
   title?: string;
 }
 
-export interface OpenRequestCardInterface extends CardInterface {
+export interface OpenRequestCardInterface extends PropsInterface {
+  cardImageUrl: string;
+  info?: { detail: string; content: string }[];
+  title?: string;
   request?: RequestDetailInterface;
   closeRequest: boolean;
   requestId: number | string;
@@ -211,12 +250,17 @@ export interface OpenRequestCardInterface extends CardInterface {
 export interface ItemCardInterface extends PropsInterface {
   data: {
     id: number | string;
-    request?: RequestDetailInterface;
+    request?: TeamDetailInterface;
     card: CardInterface;
   }[];
 }
 
-export interface OpenRequestItemCardInterface extends ItemCardInterface {
+export interface OpenRequestItemCardInterface extends PropsInterface {
+  data: {
+    id: number | string;
+    request?: RequestDetailInterface;
+    card: CardInterface;
+  }[];
   closeRequest: boolean;
 }
 

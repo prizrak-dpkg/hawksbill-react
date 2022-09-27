@@ -93,8 +93,131 @@ code {
     monospace;
 }
 
+.container {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  height: 100%;
+  overflow-y: auto;
+
+  &--blocks {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(180px, 50%));
+    row-gap: 40px;
+  }
+
+}
+
+.box-item {
+  border-radius: 32px;
+  background-color: map-get($map: $color-palette, $key: fifth);
+  padding: 52px;
+
+  &--row {
+    grid-column: 1 / 3;
+  }
+
+  &--dashboard-linearbar {
+    padding: 24px 48px,
+  }
+
+  &--dashboard-charts {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    justify-content: space-between;
+  }
+}
+
+.linear {
+  @include flex(column, nowrap, space-around, flex-start);
+  height: 80%;
+  padding-top: 20px;
+
+  &-bar {
+    opacity: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+
+    &__text {
+      font-weight: 700;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: map-get($map: $color-palette, $key: second);
+      user-select: none;
+
+      &--percent {
+        width: 100px
+      }
+
+      &--category {
+        width: 25%;
+
+        @media (max-width: 799px) {
+          width: 35%;
+        }
+
+        @media (max-width: 599px) {
+          width: 45%;
+        }
+      }
+    }
+
+    &__container {
+      height: 10px;
+      width: 100%;
+      margin: 0 40px;
+      border-radius: 5px;
+      background-color: map-get($map: $color-palette, $key: third);
+    }
+
+    &__progress {
+      height: 100%;
+      width: 0%;
+      border-radius: 5px;
+      background-color: #004f88;
+      transition: width .5s ease-in-out;
+    }
+  }
+}
+
+.chart {
+
+  &--xy,
+  &--donut {
+    width: 100%;
+    height: 325px;
+  }
+
+  &--xy {
+    grid-column: 1/2;
+
+    @media (max-width: 999px) {
+      grid-column: 1/3;
+    }
+  }
+
+  &--donut {
+    grid-column: 2/3;
+
+    @media (max-width: 999px) {
+      grid-column: 1/3;
+    }
+  }
+}
+
 .reusable {
   @include coverWidth();
+
+  &__mmiddle {
+    @include flex(row, nowrap, center, flex-start);
+    width: 75%;
+  }
 
   &--grid {
     @include grid(40px, row, auto, 200px, 200px, center, center);
@@ -353,6 +476,7 @@ code {
     }
 
     &-request-info {
+      color: map-get($map: $color-palette, $key: first);
       padding: 0px 50px;
       font-style: normal;
       font-size: 18px;
@@ -368,6 +492,7 @@ code {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      user-select: none;
 
       &--center {
         text-align: center;
@@ -854,10 +979,15 @@ code {
     @include cover();
     padding: 20px;
 
+    &--center {
+      @include flex(row, nowrap, center, flex-start);
+    }
+
     @media (max-width: 799px) {
       padding: 0px 20px 20px 20px;
     }
   }
+
 
   @media (max-width: 799px) {
     padding: 120px 20px 20px 20px;

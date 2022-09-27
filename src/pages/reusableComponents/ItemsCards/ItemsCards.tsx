@@ -36,6 +36,7 @@ export const ItemsCards: React.FC<ItemCardInterface> = ({
           title={card.card.title}
           cardImageUrl={card.card.cardImageUrl}
           info={card.card.info ? [...card.card.info] : []}
+          request={card.request}
         />
       ))}
     </div>

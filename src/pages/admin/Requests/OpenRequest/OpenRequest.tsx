@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { formatRequestData, getRequestData } from "../../../../helpers/helpers";
 import {
-  ItemCardInterface,
+  OpenRequestItemCardInterface,
   PropsInterface,
 } from "../../../../helpers/interfaces";
 import { useModal } from "../../../../hooks/useModal";
@@ -20,7 +20,8 @@ export const OpenRequest: React.FC<PropsInterface> = (): JSX.Element => {
   useEffect(() => {
     getRequestData(setRequestData);
   }, []);
-  const data: ItemCardInterface["data"] = formatRequestData(requestData);
+  const data: OpenRequestItemCardInterface["data"] =
+    formatRequestData(requestData);
   return (
     <div className="main">
       <div className="main__content">

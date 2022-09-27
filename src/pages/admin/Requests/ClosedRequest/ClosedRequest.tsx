@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { formatRequestData, getRequestData } from "../../../../helpers/helpers";
 import {
-  ItemCardInterface,
+  OpenRequestItemCardInterface,
   PropsInterface,
 } from "../../../../helpers/interfaces";
 import { useRequestData } from "../../../../hooks/useRequestData";
@@ -12,7 +12,8 @@ export const ClosedRequest: React.FC<PropsInterface> = (): JSX.Element => {
   useEffect(() => {
     getRequestData(setRequestData, true);
   }, []);
-  const data: ItemCardInterface["data"] = formatRequestData(requestData);
+  const data: OpenRequestItemCardInterface["data"] =
+    formatRequestData(requestData);
   return (
     <div className="main">
       <div className="main__content">
