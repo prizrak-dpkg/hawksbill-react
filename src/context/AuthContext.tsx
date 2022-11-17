@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<PropsInterface> = ({
           setAuth(userData.data);
         }
       } else {
-        console.log(response.message);
+        console.error(response.message);
       }
     },
     logout: async () => {

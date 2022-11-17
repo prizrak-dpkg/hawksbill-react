@@ -140,9 +140,12 @@ export interface ChartsInterface {
 
 export interface RequestDetailInterface {
   cardImageUrl: string;
+  position: string;
+  openRequestNumber: number;
+  closedRequestNumber: number;
   registrationDate: string;
   modificationDate: string;
-  description?: string;
+  description: string;
   requestType?: string;
   applicant?: {
     detail: string;
@@ -179,8 +182,11 @@ export interface OpenRequestOptionsInterface {
 export interface TeamDetailInterface {
   cardImageUrl: string;
   position: string;
+  description: string;
   openRequestNumber: number;
   closedRequestNumber: number;
+  registrationDate: string;
+  modificationDate: string;
 }
 
 // Reusable components
@@ -215,6 +221,20 @@ export interface SearchInterface {
 
 export interface SearchBarInterface {
   placeholder: string;
+  form: SearchInterface;
+  handleChanges: (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => void;
+}
+
+export interface PaginatorInterface {
+  currentPage: number;
+  displayedResults: number;
+  totalResults: number;
+  prevPage: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  nextPage: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 export interface ModalInterface extends PropsInterface {
@@ -251,6 +271,14 @@ export interface ItemCardInterface extends PropsInterface {
   data: {
     id: number | string;
     request?: TeamDetailInterface;
+    card: CardInterface;
+  }[];
+}
+
+export interface BothCardInterface extends PropsInterface {
+  data: {
+    id: number | string;
+    request?: TeamDetailInterface | RequestDetailInterface;
     card: CardInterface;
   }[];
 }

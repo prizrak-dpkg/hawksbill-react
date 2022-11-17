@@ -10,6 +10,7 @@ import {
   APIResponseInterface,
   APITeamInterface,
   APIUserDataResponseInterface,
+  BothCardInterface,
   ChartsInterface,
   HTTPRequestMethods,
   ItemCardInterface,
@@ -18,17 +19,17 @@ import {
   PercentageInterface,
 } from "./interfaces";
 
+export const resultPerPage: number = 1;
+
 // API
 
 export const getToken = async (): Promise<string> => {
   const token = localStorage.getItem(APIKeys.TOKEN);
   if (token !== null) {
     if ((await isExpired(token)).token_is_expired) {
-      console.log("Expirado", token);
+      console.error("Expirado", token);
       const response = await refreshToken();
-      console.log(response);
       if (response.response && response.token !== undefined) {
-        console.log("Nuevo", response.token);
         setToken(response.token);
         return response.token;
       }
@@ -177,6 +178,9 @@ export const formatRequestData = (
       applicant: data.applicant,
       technician: data.technician,
       isClosed: data.is_closed,
+      position: "",
+      openRequestNumber: 0,
+      closedRequestNumber: 0,
     },
     card: {
       cardImageUrl: `${APIPaths.MEDIA_URL}/${data.client_image}`,
@@ -200,6 +204,9 @@ export const formatTeamData = (
       position: data.position,
       openRequestNumber: data.openRequestNumber,
       closedRequestNumber: data.closedRequestNumber,
+      description: "",
+      registrationDate: "",
+      modificationDate: "",
     },
     card: {
       cardImageUrl: `${APIPaths.MEDIA_URL}/${data.user_image}`,
@@ -479,6 +486,83 @@ export const closeOpenRequest = async (requestId: string): Promise<void> => {
   if (response.response && response.redirect !== undefined) {
     window.location.replace(response.redirect);
   }
+};
+
+// Pagination
+
+const setPaginationInfo = (
+  totalResults: number,
+  currentResults: number
+): [number, number, number] => {
+  const displayedResults =
+    currentResults + resultPerPage > totalResults
+      ? totalResults
+      : currentResults + resultPerPage;
+  const currentPage = Math.ceil(displayedResults / resultPerPage);
+  return [currentPage, displayedResults, totalResults];
+};
+
+export const resultsPagination = (
+  data: BothCardInterface["data"],
+  currentResults: number,
+  search: string = ""
+): [BothCardInterface["data"], [number, number, number]] => {
+  if (search.length === 0) {
+    const totalResults = data.length;
+    const info = setPaginationInfo(totalResults, currentResults);
+    return [data.slice(currentResults, currentResults + resultPerPage), info];
+  }
+  const dataSearch = data.filter((searchParameter) => {
+    if (
+      searchParameter.request?.description !== undefined &&
+      searchParameter.request?.description !== ""
+    ) {
+      return searchParameter.request.description
+        .toLowerCase()
+        .includes(search.toLowerCase());
+    } else if (
+      searchParameter.card.title !== undefined &&
+      searchParameter.card.title !== ""
+    ) {
+      return searchParameter.card.title
+        .toLowerCase()
+        .includes(search.toLowerCase());
+    } else {
+      return true;
+    }
+  });
+  const totalResults = dataSearch.length;
+  const info = setPaginationInfo(totalResults, currentResults);
+  return [
+    dataSearch.slice(currentResults, currentResults + resultPerPage),
+    info,
+  ];
+};
+
+export const nextResultPage = (
+  displayedResults: number,
+  totalResults: number,
+  currentPage: number,
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+): ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) => {
+  return (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    if (displayedResults < totalResults) {
+      setCurrentPage(currentPage + resultPerPage);
+    }
+  };
+};
+
+export const prevResultPage = (
+  currentPage: number,
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+): ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) => {
+  return (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - resultPerPage);
+    }
+  };
 };
 
 // Esthetics helpers

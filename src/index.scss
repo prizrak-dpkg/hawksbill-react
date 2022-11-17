@@ -993,3 +993,64 @@ code {
     padding: 120px 20px 20px 20px;
   }
 }
+
+.paginator {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 50px;
+    padding: 10px 30px;
+    width: 320px;
+    height: 60px;
+    background: map-get($map: $color-palette, $key: sixth);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
+
+  &__button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    color: map-get($map: $color-palette, $key: first);
+    background: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: map-get($map: $color-palette, $key: second);
+      @include cursor();
+    }
+  }
+
+  &__page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 23px;
+    user-select: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: map-get($map: $color-palette, $key: first);
+    color: map-get($map: $color-palette, $key: fifth);
+  }
+
+  &__info {
+    padding-top: 20px;
+    user-select: none;
+    color: map-get($map: $color-palette, $key: first);
+
+    &--bold {
+      font-weight: 700;
+    }
+  }
+}

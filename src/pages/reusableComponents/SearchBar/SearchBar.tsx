@@ -1,14 +1,12 @@
 import { BsSearch } from "react-icons/bs";
 import { SearchBarInterface } from "../../../helpers/interfaces";
-import { useSearchBar } from "../../../hooks/useSearhBar";
 import { FormInput } from "../Inputs/Inputs";
 
 export const SearchBar: React.FC<SearchBarInterface> = ({
   placeholder,
+  form,
+  handleChanges,
 }): JSX.Element => {
-  const [form, handleChanges] = useSearchBar({
-    search: "",
-  });
   return (
     <div className="reusable--search-container">
       <form className="reusable">

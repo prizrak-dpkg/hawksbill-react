@@ -13,6 +13,9 @@ export const Settings: React.FC<PropsInterface> = (): JSX.Element => {
             position={`${auth?.position}`}
             closedRequestNumber={5}
             openRequestNumber={5}
+            description={""}
+            modificationDate={""}
+            registrationDate={""}
           />
         </div>
       </div>

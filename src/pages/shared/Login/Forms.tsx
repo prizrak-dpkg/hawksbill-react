@@ -36,7 +36,6 @@ export const SignUpForm: React.FC<LoginOptionInterface> = ({
   const validateForm = validateDocument && validateEmail && validatePassord;
   const action = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
-    console.log(form);
   };
   return (
     <div className="login__form-container">
@@ -146,7 +145,6 @@ export const RecoveryForm: React.FC<LoginOptionInterface> = ({
   form.document = document;
   const action = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
-    console.log(form);
   };
   return (
     <div className="login__form-container">

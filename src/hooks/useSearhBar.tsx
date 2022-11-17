@@ -2,7 +2,8 @@ import { useState } from "react";
 import { SearchInterface } from "../helpers/interfaces";
 
 export const useSearchBar = (
-  initialValue: SearchInterface
+  initialValue: SearchInterface,
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
 ): [
   SearchInterface,
   (
@@ -21,6 +22,7 @@ export const useSearchBar = (
       ...form,
       [event.currentTarget.name]: event.currentTarget.value,
     });
+    setCurrentPage(0);
   };
   return [form, handleChanges];
 };
